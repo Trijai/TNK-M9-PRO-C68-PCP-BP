@@ -21,7 +21,7 @@ labels = open(labelsPath).read().strip().split('\n')
 
 yoloNetwork = cv2.dnn.readNetFromDarknet(modelConfiguration, modelWeights)
 
-video = cv2.VideoCapture("car10.mp4")
+video = cv2.VideoCapture("car.mp4")
 
 detected = False
 
