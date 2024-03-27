@@ -7,7 +7,7 @@ xCords = []
 yCords = []
 
 # Create tracker variable using cv2.legacy.TrackerCSRT_create()
-
+tracker = cv2.legacy.TrackerCSRT_create()
 
 confidenceThreshold = 0.1
 NMSThreshold = 0.1
@@ -100,20 +100,26 @@ while True:
                         color = (255, 0, 0)
                         cv2.rectangle(image, (x, y), (x + w, y + h), color, 2)
                         # Initialize the tracker
-
+                        tracker.init(image, boxes[i])
                         # Set detected variable to true
-
+                        detected = True
         else:
             # Get the trackerInfor from tracker.update(image)
-
+            trackerInfo = tracker.update(image)
             # Store trackerInfor[0] in success and trackInfo[1] in bbox variable
             success = None
             bbox = None
-
+            success = trackerInfo[0]
+            bbox = trackerInfo[1]
             # If success is true the call the drawBox function with the image and bbox variables
-
+            if success:
+                drawBox(image, bbox)
             # else add text "Lost" on the screen and set the detected variable to false
-
+            else:
+                cv2.putText(image, "Lost", (75, 90),
+                cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)            
+                detected = False
+                
             carTrack(image, bbox)
 
         cv2.imshow('Image', image)
